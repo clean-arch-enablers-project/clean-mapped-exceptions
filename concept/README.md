@@ -56,6 +56,9 @@ The underlying exception that originated the mapped exception, when applicable.
 
 Not all mapped exceptions originate from another exception. However, when they do, preserving the original allows the causal chain and diagnostic information, such as the original stack trace, to remain accessible.
 
+<br>
+<br>
+
 ---
 
 <p align="center">CAE: clean software made easy.</p>
