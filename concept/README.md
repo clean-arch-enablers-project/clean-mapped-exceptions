@@ -1,11 +1,8 @@
-<p align="center">CAE Concept</p>
+<p align="center">CAE Concept: Mapped Exceptions</p>
 
 ---
 
 <br>
-<br>
-
-### Clean Mapped Exceptions
 
 This concept defines a common vocabulary for failures within application workflows.
 
