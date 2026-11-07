@@ -1,64 +1,113 @@
+<p align="center">CAE Concept</p>
+
+---
+
 # Clean Mapped Exceptions
 
-This concept defines the canonical semantics for exceptions that an application workflow might encounter.
+This concept defines a common vocabulary for failures within application workflows.
 
-At a sufficiently abstract level, recurring patterns emerge.
+A **mapped exception** expresses what a failure means in its workflow context. Its type identifies the failure category; its contextual information describes the specific occurrence.
 
-An exception occurs because of...
+Mapping allows callers and diagnostic tools to reason about failures without depending on their underlying technical representation.
 
-- ...a **problematic input** payload
-- ...an **internal problem** (timeout, faulty code, unavailable dependency, etc.)
-- ...an expected resource **not being found**
-- ...an actor attempting to execute an **unauthorized** action
-- ...an **unauthenticated** actor attempting to access protected resources
+## Canonical Types
 
-All of these categories of failure are foreseeable when designing a workflow.
+Five canonical types express recurring failure categories:
 
-For example, one might not know exactly how an API call might fail, but failure remains a foreseeable possibility. Designing the workflow to represent such failures through mapped exceptions makes them easier to understand and act upon, whether programmatically or during troubleshooting sessions.
+- **Input Mapped Exception**: supplied input does not meet the workflow's requirements.
+- **Internal Mapped Exception**: execution cannot proceed because of an internal or dependency problem.
+- **Not Found Mapped Exception**: a resource expected by the workflow could not be found.
+- **Not Authorized Mapped Exception**: an identified actor lacks permission for the requested action.
+- **Not Authenticated Mapped Exception**: the required actor identity has not been established.
 
-The classification should reflect the **semantic meaning of a failure within its workflow context**, rather than merely its underlying technical cause.
+## Classification in Context
 
-To establish a common vocabulary for these failures, this concept defines five canonical exception types:
+It is the workflow orchestrator that determines classification.
 
-- **Input Mapped Exception**
-- **Internal Mapped Exception**
-- **Not Found Mapped Exception**
-- **Not Authorized Mapped Exception**
-- **Not Authenticated Mapped Exception**
+For example, a remote not-found response may indicate that the requested customer does not exist, or that the application called an incorrect endpoint. Those circumstances may justify a Not Found Mapped Exception and an Internal Mapped Exception, respectively.
 
-These types are intended to be freely and extensively reused throughout workflows in any application, regardless of programming language or underlying technology.
+The appropriate canonical type therefore depends on what the failure means for the workflow, rather than the technical error alone.
 
-Highly specialized scenarios might justify extending the canonical types, but in most cases, specialization should be achieved through contextual information rather than additional exception classes.
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'background': '#000000', 'lineColor': '#ffffff', 'edgeLabelBackground': '#000000', 'primaryTextColor': '#ffffff', 'secondaryTextColor': '#ffffff', 'tertiaryTextColor': '#ffffff'}}}%%
+flowchart TD
+    response["Remote not-found response"] --> context{"What does it mean<br/>in this workflow?"}
+    context -->|Requested customer does not exist| missing["Not Found Mapped Exception"]
+    context -->|Application called an incorrect endpoint| internal["Internal Mapped Exception"]
 
-The canonical types express the nature of mapped exceptions. However, to communicate the specific circumstances of a failure, each mapped exception may carry up to three kinds of information:
+    classDef technical fill:#000000,stroke:#ffffff,color:#ffffff
+    classDef interpretation fill:#000000,stroke:#ffffff,color:#ffffff
+    classDef mapped fill:#000000,stroke:#ffffff,color:#ffffff
+    class response technical
+    class context interpretation
+    class missing,internal mapped
+```
 
-- Brief Public Message
-- Details
-- Original
+## Attributes
+
+Each canonical type carries attributes that describe the specific failure: a brief public message, details, and the original exception, when applicable.
+
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'background': '#000000', 'lineColor': '#ffffff', 'edgeLabelBackground': '#000000', 'primaryTextColor': '#ffffff', 'secondaryTextColor': '#ffffff', 'tertiaryTextColor': '#ffffff'}}}%%
+flowchart TD
+    exception["Mapped exception<br/>Canonical type expresses the failure category"]
+    exception --> message["Brief Public Message · safe public description"]
+    exception --> details["Details · context for investigation or handling"]
+    exception -.-> original["Original · when applicable<br/>Underlying exception and causal chain"]
+
+    classDef mapped fill:#000000,stroke:#ffffff,color:#ffffff
+    classDef public fill:#000000,stroke:#ffffff,color:#ffffff
+    classDef diagnostic fill:#000000,stroke:#ffffff,color:#ffffff
+    class exception mapped
+    class message public
+    class details,original diagnostic
+```
 
 ### Brief Public Message
 
-A concise, human-readable description of the failure, designed to be safe for public exposure.
-
-It should communicate what went wrong without revealing sensitive information or unnecessary implementation details.
+A concise, human-readable description intended to be safe for public exposure.  It communicates the failure without sensitive information or unnecessary implementation details.
 
 ### Details
 
-Additional contextual information intended to help understand and diagnose the failure.
-
-Unlike the public message, details may contain technical or sensitive information and should not be assumed safe for public exposure.
-
-The purpose is to provide sufficient context for troubleshooting, observability, or programmatic decision-making.
+Context used to understand, diagnose the failure. It may contain technical or sensitive information.
+The public message explains the failure to its audience; details support deeper investigation or programmatic handling.
 
 ### Original
 
-The underlying exception that originated the mapped exception, when applicable.
+The underlying exception that caused the mapped failure, when one exists. Preserving it retains the causal chain and diagnostic information, such as the original stack trace.
 
-Not all mapped exceptions originate from another exception. However, when they do, preserving the original allows the causal chain and diagnostic information, such as the original stack trace, to remain accessible.
+## Reuse and Specialization
 
-<br>
+The canonical types are intended for reuse across workflows, languages, and technologies.
+
+Reusing these types standardizes how failures are expressed, reducing both the manual effort and AI token costs involved in defining, documenting, and interpreting separate exception types for equivalent meanings. The vocabulary is defined once and reused wherever those meanings apply.
+
+Contextual information (category and internal data) usually provides sufficient specialization. Additional exception types are appropriate when callers need a super-specific semantic type that the existing ones cannot express.
+
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'background': '#000000', 'lineColor': '#ffffff', 'edgeLabelBackground': '#000000', 'primaryTextColor': '#ffffff', 'secondaryTextColor': '#ffffff', 'tertiaryTextColor': '#ffffff'}}}%%
+flowchart TD
+    meaning["Failure meaning in the workflow"] --> fits{"Does a canonical<br/>type sufficiently<br/>express this meaning?"}
+    fits -->|Yes| reuse["Reuse the canonical type"]
+    reuse --> attributes["Describe this occurrence<br/>through its attributes"]
+    fits -->|No| extend["Introduce a subtype for<br/>the super-specific semantic category"]
+
+    classDef interpretation fill:#000000,stroke:#ffffff,color:#ffffff
+    classDef mapped fill:#000000,stroke:#ffffff,color:#ffffff
+    classDef extension fill:#000000,stroke:#ffffff,color:#ffffff
+    class meaning,fits interpretation
+    class reuse,attributes mapped
+    class extend extension
+```
+
+## A Common Failure Vocabulary
+
+Canonical types give recurring failures a consistent meaning, while their attributes describe each occurrence. Workflow context guides the choice of type, with additional types reserved for meanings the existing vocabulary cannot express.
+
+This makes reusing canonical types a practical approach to mapping exceptions: each workflow expresses its failures through an established vocabulary, reducing both the manual effort and AI token costs of defining and interpreting equivalent failure meanings repeatedly.
+
 <br>
 
 ---
 
-<p align="center">CAE: clean software made easy.</p>
+<p align="center">clean software, made easy.</p>
