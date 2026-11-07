@@ -4,7 +4,7 @@
 
 <br>
 
-### Clean Mapped Exceptions</h1> 
+### Clean Mapped Exceptions
 
 This concept defines a common vocabulary for failures within application workflows.
 
