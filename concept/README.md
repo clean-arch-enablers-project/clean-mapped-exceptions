@@ -4,7 +4,7 @@
 
 <br>
 
-<h1 style="border-bottom: none">Clean Mapped Exceptions</h1> 
+<h1 style="border-bottom: none !important">Clean Mapped Exceptions</h1> 
 
 This concept defines a common vocabulary for failures within application workflows.
 
