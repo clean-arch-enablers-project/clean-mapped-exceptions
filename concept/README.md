@@ -107,7 +107,6 @@ Canonical types give recurring failures a consistent meaning, while their attrib
 This makes reusing canonical types a practical approach to mapping exceptions: each workflow expresses its failures through an established vocabulary, reducing both the manual effort and AI token costs of defining and interpreting equivalent failure meanings repeatedly.
 
 <br>
-<br>
 
 ---
 
