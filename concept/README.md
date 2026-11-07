@@ -12,6 +12,8 @@ A **mapped exception** expresses what a failure means in its workflow context. I
 
 Mapping allows callers and diagnostic tools to reason about failures without depending on their underlying technical representation.
 
+<br>
+
 #### Canonical Types
 
 Five canonical types express recurring failure categories:
@@ -21,6 +23,8 @@ Five canonical types express recurring failure categories:
 - **Not Found Mapped Exception**: a resource expected by the workflow could not be found.
 - **Not Authorized Mapped Exception**: an identified actor lacks permission for the requested action.
 - **Not Authenticated Mapped Exception**: the required actor identity has not been established.
+
+<br>
 
 #### Classification in Context
 
@@ -45,6 +49,8 @@ flowchart TD
     class missing,internal mapped
 ```
 
+<br>
+
 #### Attributes
 
 Each canonical type carries attributes that describe the specific failure: a brief public message, details, and the original exception, when applicable.
@@ -65,18 +71,26 @@ flowchart TD
     class details,original diagnostic
 ```
 
+<br>
+
 ##### Brief Public Message
 
 A concise, human-readable description intended to be safe for public exposure.  It communicates the failure without sensitive information or unnecessary implementation details.
+
+<br>
 
 ##### Details
 
 Context used to understand, diagnose the failure. It may contain technical or sensitive information.
 The public message explains the failure to its audience; details support deeper investigation or programmatic handling.
 
+<br>
+
 ##### Original
 
 The underlying exception that caused the mapped failure, when one exists. Preserving it retains the causal chain and diagnostic information, such as the original stack trace.
+
+<br>
 
 #### Reuse and Specialization
 
@@ -101,6 +115,8 @@ flowchart TD
     class reuse,attributes mapped
     class extend extension
 ```
+
+<br>
 
 #### A Common Failure Vocabulary
 
