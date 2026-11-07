@@ -1,4 +1,4 @@
-<p align="center">CAE Concept: Mapped Exceptions</p>
+<p align="center"><span style="font-weight: lighter">CAE Concept:</span> <span style="font-weight: bold">Clean Mapped Exceptions</span></p>
 
 ---
 
