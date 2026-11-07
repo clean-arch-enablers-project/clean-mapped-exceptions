@@ -5,7 +5,7 @@
 <br>
 <br>
 
-# Clean Mapped Exceptions
+## Clean Mapped Exceptions
 
 This concept defines a common vocabulary for failures within application workflows.
 
@@ -13,7 +13,7 @@ A **mapped exception** expresses what a failure means in its workflow context. I
 
 Mapping allows callers and diagnostic tools to reason about failures without depending on their underlying technical representation.
 
-## Canonical Types
+### Canonical Types
 
 Five canonical types express recurring failure categories:
 
@@ -23,7 +23,7 @@ Five canonical types express recurring failure categories:
 - **Not Authorized Mapped Exception**: an identified actor lacks permission for the requested action.
 - **Not Authenticated Mapped Exception**: the required actor identity has not been established.
 
-## Classification in Context
+### Classification in Context
 
 It is the workflow orchestrator that determines classification.
 
@@ -46,7 +46,7 @@ flowchart TD
     class missing,internal mapped
 ```
 
-## Attributes
+### Attributes
 
 Each canonical type carries attributes that describe the specific failure: a brief public message, details, and the original exception, when applicable.
 
@@ -66,20 +66,20 @@ flowchart TD
     class details,original diagnostic
 ```
 
-### Brief Public Message
+#### Brief Public Message
 
 A concise, human-readable description intended to be safe for public exposure.  It communicates the failure without sensitive information or unnecessary implementation details.
 
-### Details
+#### Details
 
 Context used to understand, diagnose the failure. It may contain technical or sensitive information.
 The public message explains the failure to its audience; details support deeper investigation or programmatic handling.
 
-### Original
+#### Original
 
 The underlying exception that caused the mapped failure, when one exists. Preserving it retains the causal chain and diagnostic information, such as the original stack trace.
 
-## Reuse and Specialization
+### Reuse and Specialization
 
 The canonical types are intended for reuse across workflows, languages, and technologies.
 
@@ -103,7 +103,7 @@ flowchart TD
     class extend extension
 ```
 
-## A Common Failure Vocabulary
+### A Common Failure Vocabulary
 
 Canonical types give recurring failures a consistent meaning, while their attributes describe each occurrence. Workflow context guides the choice of type, with additional types reserved for meanings the existing vocabulary cannot express.
 
