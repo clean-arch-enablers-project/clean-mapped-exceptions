@@ -8,7 +8,7 @@
 
 This concept defines a common vocabulary for failures within application workflows.
 
-A **mapped exception** expresses what a failure means in its workflow context. Its type identifies the failure category; its contextual information describes the specific occurrence.
+A **mapped exception** expresses what a failure means in its workflow context. The mapped exception's canonical type identifies the failure category; its attributes describe the specific occurrence.
 
 Mapping allows callers and diagnostic tools to reason about failures without depending on their underlying technical representation.
 
@@ -28,7 +28,7 @@ Five canonical types express recurring failure categories:
 
 #### Classification in Context
 
-It is the workflow orchestrator that determines classification.
+The code coordinating the workflow determines which canonical exception type expresses a failure's meaning.
 
 For example, a remote not-found response may indicate that the requested customer does not exist, or that the application called an incorrect endpoint. Those circumstances may justify a Not Found Mapped Exception and an Internal Mapped Exception, respectively.
 
@@ -75,20 +75,20 @@ flowchart TD
 
 ##### Brief Public Message
 
-A concise, human-readable description intended to be safe for public exposure.  It communicates the failure without sensitive information or unnecessary implementation details.
+The brief public message is a concise, human-readable description intended to be safe for public exposure. It communicates the failure without sensitive information or unnecessary implementation details.
 
 <br>
 
 ##### Details
 
-Context used to understand, diagnose the failure. It may contain technical or sensitive information.
+The details attribute contains context for understanding and diagnosing the failure. Those details may contain technical or sensitive information.
 The public message explains the failure to its audience; details support deeper investigation or programmatic handling.
 
 <br>
 
 ##### Original
 
-The underlying exception that caused the mapped failure, when one exists. Preserving it retains the causal chain and diagnostic information, such as the original stack trace.
+The original attribute holds the underlying exception that caused the mapped failure, when one exists. Preserving the original exception retains the causal chain and diagnostic information, such as the original stack trace.
 
 <br>
 
@@ -96,7 +96,7 @@ The underlying exception that caused the mapped failure, when one exists. Preser
 
 The canonical types are intended for reuse across workflows, languages, and technologies.
 
-Reusing these types standardizes how failures are expressed, reducing both the manual effort and AI token costs involved in defining, documenting, and interpreting separate exception types for equivalent meanings. The vocabulary is defined once and reused wherever those meanings apply.
+Reusing the canonical exception types standardizes how failures are expressed, reducing both the manual effort and AI token costs involved in defining, documenting, and interpreting separate exception types for equivalent meanings. The vocabulary is defined once and reused wherever those meanings apply.
 
 Contextual information (category and internal data) usually provides sufficient specialization. Additional exception types are appropriate when callers need a super-specific semantic type that the existing ones cannot express.
 
