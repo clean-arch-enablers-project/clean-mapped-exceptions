@@ -90,6 +90,18 @@ The public message explains the failure to its audience; details support deeper 
 
 The original attribute holds the underlying exception that caused the mapped failure, when one exists. Preserving the original exception retains the causal chain and diagnostic information, such as the original stack trace.
 
+The mapped exception identifies where the failure acquired workflow meaning; its original exception explains the underlying cause. Diagnostic tools may need both locations. A directly detected rule violation can create a mapped exception without wrapping another exception.
+
+<br>
+
+#### Mapping and Reporting Boundaries
+
+Application code can raise a canonical exception directly when it detects a meaningful failure, or map an underlying exception where the failure can be interpreted. An already mapped exception can then propagate through callers without being wrapped again solely because it crossed another operation boundary.
+
+For example, a dependency operation may report that a requested record does not exist. A calling workflow can propagate that mapped failure when the same meaning applies. Changing the classification requires a workflow reason, rather than simply a different caller.
+
+At an external boundary, an adapter decides how to present the mapped failure through its transport, such as an HTTP response or command result. The canonical exception type supplies failure meaning; it does not itself select a transport status or response format. A reporting adapter exposes the brief public message separately from diagnostic details and the original exception. A general exception string may combine those attributes and must not be assumed to be the public message.
+
 <br>
 
 #### Reuse and Specialization
