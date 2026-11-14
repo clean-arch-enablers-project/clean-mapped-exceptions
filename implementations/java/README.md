@@ -8,11 +8,11 @@ The Java 25 implementation of the [Clean Mapped Exceptions concept](../../concep
 <dependency>
     <groupId>com.clean-arch-enablers</groupId>
     <artifactId>clean-mapped-exceptions</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-RC1</version>
 </dependency>
 ```
 
-This is the development version. Build and install locally with `mvn clean install`; publication is a separate release step.
+This is a release candidate. Build and install locally with `mvn clean install`; publication is a separate release step.
 
 ## Usage
 

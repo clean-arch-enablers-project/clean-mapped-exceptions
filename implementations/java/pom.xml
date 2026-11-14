@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.clean-arch-enablers</groupId>
     <artifactId>clean-mapped-exceptions</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-RC1</version>
     <name>Clean Mapped Exceptions</name>
     <description>Java implementation of the Clean Mapped Exceptions concept</description>
     <url>https://github.com/clean-arch-enablers-project/clean-mapped-exceptions</url>
