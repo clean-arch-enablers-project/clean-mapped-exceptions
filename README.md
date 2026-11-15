@@ -33,4 +33,10 @@ Checked items have implementation code in this repository. Unchecked items are r
 
 This artifact succeeds CAE Mapped Exceptions. See the [Java migration guide](implementations/java/README.md#migrating-from-cae-mapped-exceptions).
 
+## Repository automation
+
+[Feature pull request automation](.github/FEATURE_PRS.md) opens a pull request to `main` when a `feature/*` branch receives commits. The guide describes the required repository permission and how existing pull requests are handled.
+
+[Java publishing](.github/PUBLISHING.md) describes verification, signing, and Maven Central publication after release version changes reach `main`, including credential setup and dependency requirements.
+
 Licensed under [Apache License 2.0](LICENSE).
