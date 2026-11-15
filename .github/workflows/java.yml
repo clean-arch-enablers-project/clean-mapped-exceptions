@@ -5,10 +5,14 @@ on:
     paths:
       - "implementations/java/**"
       - ".github/workflows/java.yml"
+      - ".github/workflows/publish-java.yml"
+      - ".github/scripts/**"
   pull_request:
     paths:
       - "implementations/java/**"
       - ".github/workflows/java.yml"
+      - ".github/workflows/publish-java.yml"
+      - ".github/scripts/**"
   workflow_dispatch:
 
 permissions:
@@ -22,6 +26,9 @@ jobs:
         working-directory: implementations/java
     steps:
       - uses: actions/checkout@v4
+      - name: Test release decisions
+        working-directory: .
+        run: python3 -W error -m unittest discover -s .github/scripts -p 'test_*.py'
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

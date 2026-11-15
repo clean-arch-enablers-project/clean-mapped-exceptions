@@ -96,6 +96,8 @@ Null public messages are now rejected. Null optional attributes no longer append
 
 ## Build and quality checks
 
+Automatic Maven Central publishing on `main` is described in the [publishing guide](../../.github/PUBLISHING.md), including required GitHub Secrets and release ordering.
+
 From this directory, using JDK 25 and Maven 3.9 or newer:
 
 ```shell
