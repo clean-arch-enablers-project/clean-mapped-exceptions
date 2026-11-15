@@ -1,6 +1,6 @@
 # Publishing the Java artifact
 
-The [publishing workflow](workflows/publish-java.yml) runs after pushes to `main`, including merged pull requests. Pull requests and feature branches only run verification; they cannot publish through this workflow.
+The [publishing workflow](workflows/publish-java.yml) runs after pushes to `main`, including merged pull requests. Java verification runs on pull requests targeting `main`. [Feature branch automation](FEATURE_PRS.md) creates those pull requests after feature branch pushes. Publication requires a run on `main`.
 
 On a push, the workflow compares the Java POM's group, artifact, and version with the pre-push commit. A new Java implementation or changed coordinates are release candidates. Unchanged coordinates skip publication, so ordinary code or documentation merges do not attempt to overwrite an existing version. Maintain the Java version deliberately in the release PR.
 
@@ -27,13 +27,15 @@ The workflow does not configure GitHub Secrets or change repository protection s
 
 ## Publication sequence
 
+Verification and publishing each use a fresh Maven repository without restoring a Maven cache. Workflows check out only their own repository and never install dependencies from source. Maven must resolve dependencies from their configured published repositories; an unpublished or unavailable dependency fails the build.
+
 1. Test the release-decision script and determine whether publication is needed.
 2. Set up Java 25 and Maven server configuration.
 3. Run `clean verify` with a fresh, isolated Maven repository. This checks unit tests, full coverage, compiler warnings, and Javadoc.
 4. Activate the Maven `release` profile, sign the verified JAR, sources, Javadoc and POM, and deploy with Sonatype's Central Publishing Maven plugin.
 5. Wait for Central to report the deployment as published.
 
-The publishing job has no Maven cache or source checkout for dependencies. In particular, **publish Clean Mapped Exceptions before Clean Trier**. Trier must resolve its declared dependency from Central, proving that consumers can obtain it. The ordinary Trier verification workflow still builds its pinned dependency locally to support development before publication.
+Both verification and publishing resolve dependencies from Maven Central. The `clean-trier` artifact depends on `clean-mapped-exceptions`; publish the required Mapped Exceptions version before publishing Trier. Missing or unavailable dependency versions fail verification.
 
 The deploy step skips running unit tests a second time after successful verification. It retains the verification results and coverage data; signing and publication cannot run when verification fails. Test and coverage reports are uploaded even on failure. Deployment credentials are supplied only to the signing/publishing step.
 
