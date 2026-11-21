@@ -1,3 +1,9 @@
+<p align="center">CAE Java Version</p>
+
+---
+
+<br>
+
 # Clean Mapped Exceptions for Java
 
 The Java 25 implementation of the [Clean Mapped Exceptions concept](../../concept/README.md). The library has no runtime dependencies.
@@ -119,3 +125,10 @@ mvn -B -ntp clean verify sonar:sonar
 ```
 
 The scanner imports JaCoCo's XML report and waits for the server quality gate. A zero-issue requirement also requires an appropriate server quality profile and gate; configure the gate to reject any issues rather than relying only on severity ratings.
+
+<br>
+<br>
+
+---
+
+<p align="center">clean software, made easy.</p>
