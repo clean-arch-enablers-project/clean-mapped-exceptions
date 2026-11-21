@@ -1,8 +1,16 @@
-# Clean Mapped Exceptions for Java
+<p align="center">CAE Java Version</p>
+
+---
+
+<br>
+
+### Clean Mapped Exceptions for Java
 
 The Java 25 implementation of the [Clean Mapped Exceptions concept](../../concept/README.md). The library has no runtime dependencies.
 
-## Dependency
+<br>
+
+#### Dependency
 
 ```xml
 <dependency>
@@ -14,7 +22,9 @@ The Java 25 implementation of the [Clean Mapped Exceptions concept](../../concep
 
 This is a release candidate. Build and install locally with `mvn clean install`; publication is a separate release step.
 
-## Usage
+<br>
+
+#### Usage
 
 ```java
 import com.cae.clean_mapped_exceptions.specifics.InputMappedException;
@@ -57,7 +67,9 @@ new InputMappedException(publicMessage, details, original);
 
 All types remain extensible. Reuse a canonical category when it already conveys the required meaning. Already mapped failures can propagate directly when their meaning remains valid.
 
-## Attribute and diagnostic contract
+<br>
+
+#### Attribute and diagnostic contract
 
 - `getBriefPublicMessage()`: a non-null description supplied by the caller. The caller is responsible for making it safe for its audience. Null public messages are rejected; empty strings are retained.
 - `getDetails()`: `Optional<String>` diagnostic context. Null means absent; empty strings are retained.
@@ -74,7 +86,9 @@ Frame helpers return immutable lists in stack order. The limit must be nonnegati
 
 The protected `getFullStackTraceAsString()` exposes Java's full diagnostic trace to subclasses, including causes and suppressed failures.
 
-## Migrating from CAE Mapped Exceptions
+<br>
+
+#### Migrating from CAE Mapped Exceptions
 
 | Old | New |
 | --- | --- |
@@ -94,7 +108,9 @@ All categories now support all four constructors, including `InternalMappedExcep
 
 Null public messages are now rejected. Null optional attributes no longer append literal null text to the general message. Negative frame limits are now rejected consistently. Standard traces include the original causal chain and therefore differ from legacy traces. Serialized legacy exceptions are not a supported interchange format.
 
-## Build and quality checks
+<br>
+
+#### Build and quality checks
 
 Automatic Maven Central publishing on `main` is described in the [publishing guide](../../.github/PUBLISHING.md), including required GitHub Secrets and release ordering.
 
@@ -119,3 +135,10 @@ mvn -B -ntp clean verify sonar:sonar
 ```
 
 The scanner imports JaCoCo's XML report and waits for the server quality gate. A zero-issue requirement also requires an appropriate server quality profile and gate; configure the gate to reject any issues rather than relying only on severity ratings.
+
+<br>
+<br>
+
+---
+
+<p align="center">clean software, made easy.</p>
